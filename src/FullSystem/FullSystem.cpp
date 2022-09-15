@@ -283,7 +283,7 @@ Vec4 FullSystem::trackNewCoarse(FrameHessian* fh)
 
 	AffLight aff_last_2_l = AffLight(0,0);
 
-	std::vector<SE3,Eigen::aligned_allocator<SE3>> lastF_2_fh_tries;
+	std::vector<SE3,Eigen::aligned_allocator<SE3> > lastF_2_fh_tries;
 	if(allFrameHistory.size() == 2)
 		for(unsigned int i=0;i<lastF_2_fh_tries.size();i++) lastF_2_fh_tries.push_back(SE3());
 	else
@@ -643,7 +643,7 @@ void FullSystem::activatePointsMT()
 	std::vector<PointHessian*> optimized; optimized.resize(toOptimize.size());
 
 	if(multiThreading)
-		treadReduce.reduce(boost::bind(&FullSystem::activatePointsMT_Reductor, this, &optimized, &toOptimize, _1, _2, _3, _4), 0, toOptimize.size(), 50);
+		treadReduce.reduce(boost::bind(&FullSystem::activatePointsMT_Reductor, this, &optimized, &toOptimize, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3, boost::placeholders::_4), 0, toOptimize.size(), 50);
 
 	else
 		activatePointsMT_Reductor(&optimized, &toOptimize, 0, toOptimize.size(), 0, 0);

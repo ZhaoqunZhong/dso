@@ -4,6 +4,7 @@ PROJECT(${PROJECT_NAME})
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
+set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_TYPE Release)
 #set(BUILD_TYPE RelWithDebInfo)
@@ -19,19 +20,21 @@ find_package(Boost COMPONENTS system thread)
 
 # optional libraries
 find_package(LibZip QUIET)
-find_package(Pangolin 0.2 QUIET)
+find_package(Pangolin QUIET )
+message("==> Pangolin_LIBRARY : ${Pangolin_LIBRARY}")
 find_package(OpenCV QUIET)
 
 # flags
-add_definitions("-DENABLE_SSE")
-set(CMAKE_CXX_FLAGS
-   "${SSE_FLAGS} -O3 -g -std=c++0x -march=native"
-#   "${SSE_FLAGS} -O3 -g -std=c++0x -fno-omit-frame-pointer"
-)
+#add_definitions("-DENABLE_SSE")
+#set(CMAKE_CXX_FLAGS
+#   "${SSE_FLAGS} -O3 -g -std=c++0x -march=native"
+##   "${SSE_FLAGS} -O3 -g -std=c++0x -fno-omit-frame-pointer"
+#)
 
 if (MSVC)
      set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
 endif (MSVC)
+
 
 # Sources files
 set(dso_SOURCE_FILES
@@ -66,9 +69,11 @@ include_directories(
 
 
 # decide if we have pangolin
-if (Pangolin_FOUND)
+if (Pangolin_LIBRARY)
 	message("--- found PANGOLIN, compiling dso_pangolin library.")
-	include_directories( ${Pangolin_INCLUDE_DIRS} ) 
+	message("==> Pangolin_INCLUDE_DIRS : ${Pangolin_INCLUDE_DIRS}")
+#	include_directories( ${Pangolin_INCLUDE_DIRS} )
+	include_directories( /usr/local/include )
 	set(dso_pangolin_SOURCE_FILES 
 	  ${PROJECT_SOURCE_DIR}/src/IOWrapper/Pangolin/KeyFrameDisplay.cpp
 	  ${PROJECT_SOURCE_DIR}/src/IOWrapper/Pangolin/PangolinDSOViewer.cpp)
@@ -114,18 +119,20 @@ add_library(dso ${dso_SOURCE_FILES} ${dso_opencv_SOURCE_FILES} ${dso_pangolin_SO
 
 #set_property( TARGET dso APPEND_STRING PROPERTY COMPILE_FLAGS -Wall )
 
-
+message("==> CMAKE_SYSTEM_NAME : ${CMAKE_SYSTEM_NAME}")
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # OSX
     set(BOOST_THREAD_LIBRARY boost_thread-mt)
+	add_definitions(-D_OSX_)
+	add_definitions(-DHAVE_GLEW)
 else()
     set(BOOST_THREAD_LIBRARY boost_thread)
 endif()
 
 # build main executable (only if we have both OpenCV and Pangolin)
-if (OpenCV_FOUND AND Pangolin_FOUND)
+if (OpenCV_FOUND AND Pangolin_LIBRARY AND CSPARSE_FOUND)
 	message("--- compiling dso_dataset.")
 	add_executable(dso_dataset ${PROJECT_SOURCE_DIR}/src/main_dso_pangolin.cpp )
-    target_link_libraries(dso_dataset dso boost_system cxsparse ${BOOST_THREAD_LIBRARY} ${LIBZIP_LIBRARY} ${Pangolin_LIBRARIES} ${OpenCV_LIBS})
+    target_link_libraries(dso_dataset dso Boost::system ${CSPARSE_LIBRARY} Boost::thread ${LIBZIP_LIBRARY} ${Pangolin_LIBRARIES} ${OpenCV_LIBS})
 else()
 	message("--- not building dso_dataset, since either don't have openCV or Pangolin.")
 endif()
