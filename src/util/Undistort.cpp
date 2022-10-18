@@ -48,7 +48,7 @@ namespace dso
 
 
 PhotometricUndistorter::PhotometricUndistorter(
-		std::string file,
+		std::string file, //gamma file
 		std::string noiseImage,
 		std::string vignetteImage,
 		int w_, int h_)
@@ -285,7 +285,7 @@ Undistort* Undistort::getUndistorterForFile(std::string configFilename, std::str
 
 	Undistort* u;
 
-    // for backwards-compatibility: Use RadTan model for 8 parameters.
+
 	if(std::sscanf(l1.c_str(), "%f %f %f %f %f %f %f %f",
 			&ic[0], &ic[1], &ic[2], &ic[3],
 			&ic[4], &ic[5], &ic[6], &ic[7]) == 8)
@@ -387,7 +387,7 @@ ImageAndExposure* Undistort::undistort(const MinimalImage<T>* image_raw, float e
 {
 	if(image_raw->w != wOrg || image_raw->h != hOrg)
 	{
-		printf("Undistort::undistort: wrong image size (%d %d instead of %d %d) \n", image_raw->w, image_raw->h, w, h);
+		printf("Undistort::undistort: wrong image size (%d %d instead of %d %d) \n", image_raw->w, image_raw->h, wOrg, hOrg);
 		exit(1);
 	}
 

@@ -56,6 +56,9 @@ PangolinDSOViewer::PangolinDSOViewer(int w, int h, bool startRunThread)
 		internalVideoImg->setBlack();
 		internalKFImg->setBlack();
 		internalResImg->setBlack();
+//        internalVideoImg->setConst(Vec3b(255,255,255));
+//        internalKFImg->setConst(Vec3b(255,255,255));
+//        internalResImg->setConst(Vec3b(255,255,255));
 	}
 
 

@@ -16,7 +16,8 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # required libraries
 find_package(SuiteParse REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Boost COMPONENTS system thread) 
+find_package(Boost COMPONENTS system thread)
+find_package(glog REQUIRED)
 
 # optional libraries
 find_package(LibZip QUIET)
@@ -132,7 +133,7 @@ endif()
 if (OpenCV_FOUND AND Pangolin_LIBRARY AND CSPARSE_FOUND)
 	message("--- compiling dso_dataset.")
 	add_executable(dso_dataset ${PROJECT_SOURCE_DIR}/src/main_dso_pangolin.cpp )
-    target_link_libraries(dso_dataset dso Boost::system ${CSPARSE_LIBRARY} Boost::thread ${LIBZIP_LIBRARY} ${Pangolin_LIBRARIES} ${OpenCV_LIBS})
+    target_link_libraries(dso_dataset dso Boost::system ${CSPARSE_LIBRARY} Boost::thread ${LIBZIP_LIBRARY} ${Pangolin_LIBRARIES} ${OpenCV_LIBS} glog::glog)
 else()
 	message("--- not building dso_dataset, since either don't have openCV or Pangolin.")
 endif()

@@ -45,7 +45,7 @@
 #include "OptimizationBackend/MatrixAccumulators.h"
 #include "FullSystem/PixelSelector2.h"
 
-
+#include "glog/logging.h"
 
 #include "IOWrapper/Pangolin/PangolinDSOViewer.h"
 #include "IOWrapper/OutputWrapper/SampleOutputWrapper.h"
@@ -353,6 +353,10 @@ void parseArgument(char* arg)
 
 int main( int argc, char** argv )
 {
+    FLAGS_logtostdout = true;
+    FLAGS_colorlogtostdout = true;
+    google::InitGoogleLogging(argv[0]);
+    google::InstallFailureSignalHandler();
 	//setlocale(LC_ALL, "");
 	for(int i=1; i<argc;i++)
 		parseArgument(argv[i]);
