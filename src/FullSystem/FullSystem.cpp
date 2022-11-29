@@ -56,6 +56,8 @@
 
 #include <cmath>
 
+#include "glog/logging.h"
+
 namespace dso
 {
 int FrameHessian::instanceCounter=0;
@@ -830,18 +832,19 @@ void FullSystem::addActiveFrame( ImageAndExposure* image, int id )
 		// use initializer!
 		if(coarseInitializer->frameID<0)	// first frame set. fh is kept by coarseInitializer.
 		{
-
+            LOG(INFO) << "coarseInitializer->frameID<0";
 			coarseInitializer->setFirst(&Hcalib, fh);
 		}
 		else if(coarseInitializer->trackFrame(fh, outputWrapper))	// if SNAPPED
 		{
-
+            LOG(INFO) << "coarseInitializer->trackFrame";
 			initializeFromInitializer(fh);
 			lock.unlock();
 			deliverTrackedFrame(fh, true);
 		}
 		else
 		{
+            LOG(INFO) << "still initializing";
 			// if still initializing
 			fh->shell->poseValid = false;
 			delete fh;

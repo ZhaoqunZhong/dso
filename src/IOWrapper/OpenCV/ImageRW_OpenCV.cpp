@@ -34,7 +34,7 @@ namespace IOWrap
 {
 MinimalImageB* readImageBW_8U(std::string filename)
 {
-	cv::Mat m = cv::imread(filename, cv::IMREAD_GRAYSCALE);
+	cv::Mat m = cv::imread(filename, cv::IMREAD_GRAYSCALE); // This flag seems to result in 8-bit channel.
 	if(m.rows*m.cols==0)
 	{
 		printf("cv::imread could not read image %s! this may segfault. \n", filename.c_str());

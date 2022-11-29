@@ -1,7 +1,7 @@
 SET(PROJECT_NAME DSO)
 
 PROJECT(${PROJECT_NAME})
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -26,7 +26,8 @@ message("==> Pangolin_LIBRARY : ${Pangolin_LIBRARY}")
 find_package(OpenCV QUIET)
 
 # flags
-#add_definitions("-DENABLE_SSE")
+add_definitions("-DENABLE_SSE")
+message(STATUS "SSE_FLAGS: " ${SSE_FLAGS})
 #set(CMAKE_CXX_FLAGS
 #   "${SSE_FLAGS} -O3 -g -std=c++0x -march=native"
 ##   "${SSE_FLAGS} -O3 -g -std=c++0x -fno-omit-frame-pointer"

@@ -248,6 +248,7 @@ private:
 		{
 			// CHANGE FOR ZIP FILE
 			return IOWrap::readImageBW_8U(files[id]);
+            // return IOWrap::readImageBW_16U(files[id]);
 		}
 		else
 		{
@@ -280,9 +281,15 @@ private:
 	}
 
 
+    MinimalImageB16* getImageRaw16_internal(int id, int unused)
+    {
+            return IOWrap::readImageBW_16U(files[id]);
+    }
+
 	ImageAndExposure* getImage_internal(int id, int unused)
 	{
 		MinimalImageB* minimg = getImageRaw_internal(id, 0);
+        // MinimalImageB16* minimg = getImageRaw16_internal(id, 0);
 		ImageAndExposure* ret2 = undistort->undistort<unsigned char>(
 				minimg,
 				(exposures.size() == 0 ? 1.0f : exposures[id]),
