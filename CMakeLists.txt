@@ -1,7 +1,8 @@
-SET(PROJECT_NAME DSO)
-
-PROJECT(${PROJECT_NAME})
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+
+SET(PROJECT_NAME DSO)
+project(${PROJECT_NAME})
+
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -14,16 +15,16 @@ set(LIBRARY_OUTPUT_PATH lib)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # required libraries
-find_package(SuiteParse REQUIRED)
-find_package(Eigen3 REQUIRED)
-find_package(Boost COMPONENTS system thread)
-find_package(glog REQUIRED)
+find_package(SuiteParse CONFIG REQUIRED)
+find_package(Eigen3 CONFIG REQUIRED)
+find_package(Boost CONFIG COMPONENTS system thread)
+find_package(glog CONFIG REQUIRED)
 
 # optional libraries
-find_package(LibZip QUIET)
-find_package(Pangolin QUIET )
+find_package(LibZip CONFIG QUIET)
+# find_package(Pangolin QUIET )
 message("==> Pangolin_LIBRARY : ${Pangolin_LIBRARY}")
-find_package(OpenCV QUIET)
+find_package(OpenCV CONFIG QUIET)
 
 # flags
 add_definitions("-DENABLE_SSE")
