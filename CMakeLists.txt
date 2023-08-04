@@ -15,20 +15,20 @@ set(LIBRARY_OUTPUT_PATH lib)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # required libraries
-find_package(SuiteParse CONFIG REQUIRED)
-find_package(Eigen3 CONFIG REQUIRED)
-find_package(Boost CONFIG COMPONENTS system thread)
-find_package(glog CONFIG REQUIRED)
+find_package(SuiteParse REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(Boost COMPONENTS system thread)
+find_package(glog REQUIRED)
 
 # optional libraries
 find_package(LibZip CONFIG QUIET)
-# find_package(Pangolin QUIET )
+find_package(Pangolin QUIET )
 message("==> Pangolin_LIBRARY : ${Pangolin_LIBRARY}")
 find_package(OpenCV CONFIG QUIET)
 
 # flags
 add_definitions("-DENABLE_SSE")
-message(STATUS "SSE_FLAGS: " ${SSE_FLAGS})
+message(STATUS "${Yellow} SSE_FLAGS: " ${SSE_FLAGS})
 #set(CMAKE_CXX_FLAGS
 #   "${SSE_FLAGS} -O3 -g -std=c++0x -march=native"
 ##   "${SSE_FLAGS} -O3 -g -std=c++0x -fno-omit-frame-pointer"

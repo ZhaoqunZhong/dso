@@ -12,3 +12,4 @@ thirdparty/libzip-1.1.1
 .idea
 .vscode
 .DS_Store
+build
